@@ -11,7 +11,8 @@ import { motion, useAnimate } from "framer-motion";
 
 
 export const TabContentTransform = () => {
-  const onDrop = useCallback(acceptedFiles => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onDrop = useCallback((acceptedFiles: any) => {
     console.log(acceptedFiles);
   }, [])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
