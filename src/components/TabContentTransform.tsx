@@ -7,22 +7,27 @@ import { Button } from '@/components/ui/button';
 import JPGIMAGE from './../assets/jpg-svgrepo-com.svg';
 import PNGIMAGE from './../assets/png-svgrepo-com.svg';
 import { motion, useAnimate } from "framer-motion";
+import { UseConverterImage } from '@/hooks/UseConverterImage';
 
 
 
 export const TabContentTransform = () => {
+  const [scope, animate] = useAnimate()
+  const {setMyFile, convertImage} = UseConverterImage();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onDrop = useCallback((acceptedFiles: any) => {
     console.log(acceptedFiles);
-  }, [])
+    const file = acceptedFiles[0];
+    setMyFile(file)<
+    console.log(convertImage());
+  }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
-  const [scope, animate] = useAnimate()
   useEffect(() => {
     if (isDragActive) {
-      animate(scope.current, { boxShadow: "0px 0px 100px 30px #2B6CB0"})
+      animate(scope.current, { boxShadow: "0px 0px 100px 30px #2B6CB0" })
     }
- }, [isDragActive])
-  
+  }, [isDragActive])
+
   return (
     <TabsContent value="convertir" className='h-full flex-1'>
       <section className='flex flex-col flex-1 h-full overflow-x-hidden'>
