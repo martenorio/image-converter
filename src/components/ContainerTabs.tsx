@@ -1,19 +1,15 @@
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TabContentTransform } from "./TabContentTransform";
-import { TabContentCompress } from "./TabContentCompress";
+import './../css/stars.css';
 
 export const ContainerTabs = () => {
 
   return (
-    <Tabs defaultValue="convertir" className="flex flex-col w-full">
-      <div className='flex-initial flex flex-row justify-center my-5'>
-        <TabsList>
-          <TabsTrigger value="convertir">Convertir</TabsTrigger>
-          <TabsTrigger value="comprimir">Comprimir</TabsTrigger>
-        </TabsList>
-      </div>
+    <div className="w-full">
+      <div className='stars overflow-hidden'></div>
+      <div className='stars2 overflow-hidden'></div>
+      <div className='stars3 overflow-hidden'></div>
       <TabContentTransform />
-      <TabContentCompress />
-    </Tabs>
+      {/* <TabContentCompress /> */}
+    </div>
   )
 }

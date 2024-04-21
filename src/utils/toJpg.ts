@@ -1,50 +1,31 @@
-export class convertToJPG {
-  constructor() { }
-  static convertDataURIToBinary(dataURI: string) {
-    const BASE64_MARKER = ';base64,';
-    const base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
-    const base64 = dataURI.substring(base64Index);
-    const raw = window.atob(base64);
-    const rawLength = raw.length;
-    const array = new Uint8Array(new ArrayBuffer(rawLength));
+import {urltoBlob,filetoDataURL,compressAccurately, EImageType,dataURLtoImage,downloadFile} from 'image-conversion';
 
-    for (i = 0; i < rawLength; i++) {
-      array[i] = raw.charCodeAt(i);
-    }
-    return array;
+export class ConvertertImg {
+  constructor() { }
+
+  public async convertImageLib(file:File){
+    //const file = await urltoBlob('./img/demo.png');
+    const image = await this.filetoImage(file); 
+    //"image/png", "image/jpeg", "image/gif".
+    const compress_file = await compressAccurately(file, {
+      size: Number((file.size / 1024).toFixed()),
+      accuracy:0.99,
+      type: EImageType.JPEG,
+      width:image.width,
+      height:image.height,
+      scale: 0,
+    });
+    //data.file = file;
+    console.log(compress_file)
+    console.log(this.filetoImage(compress_file));
+    downloadFile(compress_file,new Date().toJSON().replace('.','_') + '.jpg');
+  } 
+  async filetoImage(file:Blob) {
+    const dataURL = await filetoDataURL(file );
+    return dataURLtoImage(dataURL)
   }
 
-
-  static convert2JPG = function (file) {
-    const image = new Image();
-
-    image.src = file.nativeURL;
-    const canvas = document.createElement("canvas");
-    canvas.width = image.width;
-    canvas.height = image.height;
-    canvas.getContext("2d").drawImage(image, 0, 0);
-
-    image.onload = function () {
-      //save to temp location??
-
-      file.createWriter(function (fileWriter: { write: (arg0: Blob) => void; }) {
-
-        file.onWriteEnd = function (e) {
-          console.log('Write completed.');
-        };
-
-        file.onError = function (e) {
-          console.log('Write failed: ' + e.toString());
-        };
-
-        // Create a new Blob and write it to log.txt.
-        const ui8a = convertToJPG.convertDataURIToBinary(image);
-        const blob = new Blob(ui8a.buffer, { type: "image/jpeg" });
-        fileWriter.write(blob);
-      },  );
-    };
-
-    image.src = canvas.toDataURL("image/jpg");
-    return image;
-  };
 }
+
+
+

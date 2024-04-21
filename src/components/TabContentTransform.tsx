@@ -1,9 +1,7 @@
 import { useCallback, useEffect } from 'react';
-import { TabsContent } from "@/components/ui/tabs";
 import { useDropzone } from 'react-dropzone'
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Button } from '@/components/ui/button';
 import JPGIMAGE from './../assets/jpg-svgrepo-com.svg';
 import PNGIMAGE from './../assets/png-svgrepo-com.svg';
 import { motion, useAnimate } from "framer-motion";
@@ -13,14 +11,14 @@ import { UseConverterImage } from '@/hooks/UseConverterImage';
 
 export const TabContentTransform = () => {
   const [scope, animate] = useAnimate()
-  const {setMyFile, convertImage} = UseConverterImage();
+  const { setMyFile, convertImage, myFile } = UseConverterImage();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onDrop = useCallback((acceptedFiles: any) => {
     console.log(acceptedFiles);
     const file = acceptedFiles[0];
-    setMyFile(file)<
-    console.log(convertImage());
-  }, []);
+    setMyFile(file);
+    console.log();
+  }, [myFile]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
   useEffect(() => {
     if (isDragActive) {
@@ -29,11 +27,12 @@ export const TabContentTransform = () => {
   }, [isDragActive])
 
   return (
-    <TabsContent value="convertir" className='h-full flex-1'>
+    <div className='h-full flex-1'>
+
       <section className='flex flex-col flex-1 h-full overflow-x-hidden'>
         <div {...getRootProps()} className='flex-1 flex justify-center items-center relative'>
           <motion.div
-            className="absolute flex justify-center items-center border-dashed border-2 border-sky-500 p-4 shadow-sm bg-slate-800 w-96 h-96 rounded-full"
+            className="absolute flex justify-center items-center border-dashed border-2 border-sky-500 p-4 shadow-sm bg-slate-800 w-[42rem] h-[42rem] rounded-full"
             ref={scope}
             animate={{
               rotate: 360,
@@ -45,10 +44,10 @@ export const TabContentTransform = () => {
             }}
           >
             <motion.div
-              className="absolute flex justify-center items-center border-dashed border-2 border-yellow-500 p-4 shadow-sm bg-slate-900 w-80 h-80 rounded-full"
+              className="absolute flex justify-center items-center border-dashed border-2 border-yellow-500 p-4 shadow-sm bg-slate-900 w-[32rem] h-[32rem] rounded-full"
               animate={{
                 rotate: -360,
-                borderRadius: ["50%", "40%", "50%", "40%", "50%"],
+                borderRadius: ["50%", "35%", "50%", "35%", "50%"],
               }}
               transition={{
                 duration: 10,
@@ -57,7 +56,7 @@ export const TabContentTransform = () => {
               }}
             >
               <motion.div
-                className="absolute border-dashed border-2 border-blue-400 p-4 shadow-sm bg-blue-950 w-64 h-64 rounded-full"
+                className="absolute border-dashed border-2 border-blue-400 p-4 shadow-sm bg-blue-950 w-[26rem] h-[26rem] rounded-full"
                 animate={{
                   rotate: 360,
                   borderRadius: ["50%", "40%", "50%", "40%", "50%"]
@@ -73,7 +72,7 @@ export const TabContentTransform = () => {
           </motion.div>
           <div className="z-10 p-4 shadow-sm w-72 h-72 rounded-full flex justify-center items-center">
             {/* <div {...getRootProps()}> */}
-            <input {...getInputProps()} />
+            <input type='file' multiple={false} {...getInputProps()} />
             {
               isDragActive ?
                 <p className='text-slate-100 text-center'>Suelta los archivos aquí ...</p> :
@@ -82,54 +81,61 @@ export const TabContentTransform = () => {
             {/* </div> */}
           </div>
         </div>
-        <div className='flex-initial p-10'>
-          <div className='border-slate-200 border rounded-lg p-6 flex justify-around'>
-            <div className='flex flex-col items-center gap-5'>
-              <h3 className="text-2xl font-semibold leading-none tracking-tight">
-                Mi imagen
-              </h3>
-              <p>Mi_imagen.png</p>
+        <div className='flex justify-center p-6'>
+          <div className='backdrop-blur-sm border-slate-200 border rounded-lg p-6 w-full md:max-w-3xl flex  flex-col'>
+            <h1 className="mb-4 text-3xl text-center font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-5xl">
+              Transforma tus{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+                imagenes
+              </span>
+            </h1>
+            <div className='flex justify-around md:flex-row flex-col'>
+              <div className='flex flex-col items-center gap-5'>
+                <h3 className="text-2xl font-semibold leading-none tracking-tight">
+                  Mi imagen
+                </h3>
+                <p>Mi_imagen.png</p>
+              </div>
+              <div className='flex flex-col items-center gap-5'>
+                <h3 className="text-2xl font-semibold leading-none tracking-tight">
+                  Formato a convertir
+                </h3>
+                <RadioGroup defaultValue="card" className="grid grid-cols-2 gap-4">
+                  <div>
+                    <RadioGroupItem value="card" id="card" className="peer sr-only" />
+                    <Label
+                      htmlFor="card"
+                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                    >
+                      <img src={PNGIMAGE} alt="mb-3 h-6 w-6" />
+                      PNG
+                    </Label>
+                  </div>
+                  <div>
+                    <RadioGroupItem
+                      value="paypal"
+                      id="paypal"
+                      className="peer sr-only"
+                    />
+                    <Label
+                      htmlFor="paypal"
+                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                    >
+                      <img src={JPGIMAGE} alt="mb-3 h-6 w-6" />
+                      JPG
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
             </div>
-            <div className='flex flex-col items-center gap-5'>
-              <h3 className="text-2xl font-semibold leading-none tracking-tight">
-                Formato a convertir
-              </h3>
-              <RadioGroup defaultValue="card" className="grid grid-cols-2 gap-4">
-                <div>
-                  <RadioGroupItem value="card" id="card" className="peer sr-only" />
-                  <Label
-                    htmlFor="card"
-                    className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                  >
-                    <img src={PNGIMAGE} alt="mb-3 h-6 w-6" />
-                    PNG
-                  </Label>
-                </div>
-                <div>
-                  <RadioGroupItem
-                    value="paypal"
-                    id="paypal"
-                    className="peer sr-only"
-                  />
-                  <Label
-                    htmlFor="paypal"
-                    className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                  >
-                    <img src={JPGIMAGE} alt="mb-3 h-6 w-6" />
-                    JPG
-                  </Label>
-                </div>
-              </RadioGroup>
-            </div>
-            <div className='flex flex-col items-center gap-5'>
-              <h3 className="text-2xl font-semibold leading-none tracking-tight">
-                Transformar
-              </h3>
-              <Button>Button</Button>
-            </div>
+            <button
+            onClick={convertImage} 
+            className='text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-md px-5 py-2.5 text-center me-2'>
+              Transformar
+            </button>
           </div>
         </div>
       </section>
-    </TabsContent>
+    </div>
   )
 }
