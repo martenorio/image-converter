@@ -1,4 +1,4 @@
-import {urltoBlob,filetoDataURL,compressAccurately, EImageType,dataURLtoImage,downloadFile} from 'image-conversion';
+import {filetoDataURL,compressAccurately, EImageType,dataURLtoImage,downloadFile} from 'image-conversion';
 
 export class ConvertertImg {
   constructor() { }

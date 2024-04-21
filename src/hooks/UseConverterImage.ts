@@ -22,7 +22,7 @@ export const UseConverterImage = () => {
   const convertImage = async() => {
     console.log(myFile);
     const conimg = new ConvertertImg();
-    const img = await conimg.convertImageLib(myFile);
+    const img = await conimg.convertImageLib(myFile as unknown as File);
     console.log(img);
     // console.log(convertToJPG.convert2JPG(myFile));
     // const imageBase64 = await convertFileToBase64();
