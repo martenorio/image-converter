@@ -102,7 +102,6 @@ export const TransformImages = () => {
                 </button> */}
             <button
               type='button'
-              disabled={Boolean(formatToConvert)}
               onClick={convertImage}
               className="w-full relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-gray-700 dark:bg-gray-950 font-pj rounded-xl"
             >
