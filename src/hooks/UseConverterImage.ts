@@ -1,8 +1,10 @@
-import { ConvertertImg } from '@/utils/toJpg'
+import { ConvertertImg } from '@/utils/ConvertertImg'
+import { EImageType } from 'image-conversion';
 import { useState } from 'react'
 
 export const UseConverterImage = () => {
-  const [myFile, setMyFile] = useState()
+  const [myFile, setMyFile] = useState();
+  const [formatToConvert, setFormatToConvert] = useState<EImageType>()
   
   const convertFileToBase64 = ():Promise<string | ArrayBuffer | null | boolean> => {
     return new Promise((resolve, reject) => {
@@ -20,20 +22,18 @@ export const UseConverterImage = () => {
     })
   }
   const convertImage = async() => {
+    if(!formatToConvert) return;
     console.log(myFile);
-    const conimg = new ConvertertImg();
-    const img = await conimg.convertImageLib(myFile as unknown as File);
+    const conver = new ConvertertImg();
+    const img = await conver.ToImageLib(myFile as unknown as File,formatToConvert);
     console.log(img);
-    // console.log(convertToJPG.convert2JPG(myFile));
-    // const imageBase64 = await convertFileToBase64();
-    // if(imageBase64?.toString().includes("data:image/png")){
-    //   console.log(convertToJPG.convert2JPG(myFile));
-    // }
   }
   return ({
     myFile, 
     setMyFile,
     convertFileToBase64,
     convertImage,
+    formatToConvert,
+    setFormatToConvert,
   })
 }

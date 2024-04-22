@@ -1,13 +1,13 @@
 import './App.css';
 import { ButtonThemeSelector } from './components/ButtonThemeSelector';
-import { ContainerTabs } from './components/ContainerTabs';
+import { ContaimerTransform } from './components/ContaimerTransform';
 import { ThemeProvider } from './theme/theme-provider';
 
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <main className="flex h-screen">
-        <ContainerTabs />
+        <ContaimerTransform />
         <ButtonThemeSelector />
       </main>
     </ThemeProvider>
